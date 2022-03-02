@@ -4,7 +4,7 @@
 
 Thanks to [Tiktaktux-Wiki](https://www.tiktaktux.de/doku.php?id=linux:caldav_und_carddav_backup_erstellen) for the important base. ✨ 
 
-Also a big thanks to [Cermit](https://twitter.com/Cermit3273?s=20&t=quwG6m5sDXRab5OmeCgPoQ) for the great help to make my first python project! 🎉 
+Further a big thanks to [Cermit](https://twitter.com/Cermit3273?s=20&t=quwG6m5sDXRab5OmeCgPoQ) for the great help to make my first python project! 🎉 
 
 ---
 
@@ -18,7 +18,9 @@ Also a big thanks to [Cermit](https://twitter.com/Cermit3273?s=20&t=quwG6m5sDXRa
 
 - Backup your calendars an adressbook by starting the script. 💾
 
-- Finished! You can start the script manually or control it with a crownjob! 🎉   
+- Finished! 🎉 
+
+___Note: You can use the script manually or control it with a crownjob!___ 
   
 ---  
 
