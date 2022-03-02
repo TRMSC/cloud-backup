@@ -8,7 +8,8 @@ Further a big thanks to [Cermit](https://twitter.com/Cermit3273?s=20&t=quwG6m5sD
 
 ---
 
-_Please notice: This is my first python script. I have coded it attentive and I hope that everything works well without any guarantee of it._
+_Please notice: This is my first python script. I have coded it attentive and I hope that everything works well without any guarantee of it._  
+_Until now the script is tested with [Nextcloud](https://nextcloud.com/)._
 
 ---
 
