@@ -24,9 +24,10 @@ Also a big thanks to [Cermit](https://twitter.com/Cermit3273?s=20&t=quwG6m5sDXRa
 
 ### Roadmap:
 
-- Backup the data-directory from the cloud
 - Prevent overwriting todays backup
+- Autoremove older backups
 - Making executable files for linux and windows
+- Backup the data-directory from the cloud
 
 ---
 
