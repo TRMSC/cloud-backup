@@ -31,10 +31,20 @@ ___Note: You can use the script manually or control it with a crownjob!___
 
 ### Roadmap:
 
-- Prevent overwriting todays backup
 - Autoremove older backups
 - Making executable files for linux and windows
 - Backup the data-directory from the cloud
+
+---
+
+### Changelog:
+
+v.1.0
+- Stable release  
+
+v.1.0.1
+- Prevent overwriting todays backup
+- Codecleaning
 
 ---
 
