@@ -1,4 +1,4 @@
-# Cloud Backup v.1.0.1 - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
+# Cloud Backup v.1.0.1.rmdev - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
 
 # Prepare the backdata.txt and put it in the same directory like this script.
@@ -7,6 +7,7 @@
 import requests
 import datetime
 import os
+import shutil
 
 print ("Cloud Backup v.1.0")
 print ("Feel free to visit trmsc1.wordpress.com")
@@ -20,18 +21,24 @@ print ("Time is " + filedate)
 # Check data
 with open("cloud-backup-data.txt", "r") as backdata:
     content = backdata.readlines ()
-    backupdir = content[6]
-    backupdir = backupdir + folderdate + "/"
+    path = content[6]
+    path = path.replace('\n', "")
+    backupdir = path + folderdate + "/"
     backupdir = backupdir.replace('\n', "")
-    print ("Backup directory is " + backupdir + "\n")
-    user = content[9]
+    print ("Backup directory is " + backupdir)
+    maintain = content[9]
+    maintain = maintain.replace('\n', "")
+    print (maintain + " older subdirectories will be stored\n")
+    maintain = int(maintain) + 1   
+    user = content[12]
     user = user.replace('\n', "")
-    passwd = content[10]
+    passwd = content[13]
     passwd = passwd.replace('\n', "")
-    urlvcf = content[13] + "?export"
+    urlvcf = content[16] + "?export"
     urlvcf = urlvcf.replace('\n', "")
-    url = content[16]
-    calendarlist = content[20].replace('\n', "").split(",")
+    url = content[19]
+    calendarlist = content[23].replace('\n', "").split(",")
+    print ("Start backup progress...")
 
 # Check and create directory
 if not os.path.exists(backupdir):
@@ -54,5 +61,14 @@ r = requests.get(urlvcf, auth=(user, passwd),allow_redirects=True)
 with open(filename, 'wb') as a:
     a.write(r.content)
 
+# Remove older versions
+print ("\nRemove older versions...")
+def sorted_ls(path):
+    mtime = lambda f: os.stat(os.path.join(path, f)).st_ctime
+    return list(sorted(os.listdir(path), key = mtime))
+del_list = sorted_ls(path)[0:(len(sorted_ls(path)) - maintain)]
+for dfile in del_list:
+    shutil.rmtree(path + dfile)
+
 # Finish
-print ("Backup finished")
+print ("\nBackup finished")
