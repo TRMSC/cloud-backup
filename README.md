@@ -2,7 +2,7 @@
 ## Backup your calendars and adressbook directly from the cloud! 
 
 
-Thanks to [Tiktaktux-Wiki](https://www.tiktaktux.de/doku.php?id=linux:caldav_und_carddav_backup_erstellen) for the important base. ✨ 
+Thanks to [Tiktaktux-Wiki](https://www.tiktaktux.de/doku.php?id=linux:caldav_und_carddav_backup_erstellen) and [Henry Koch](https://www.henrykoch.de/de/python-loeschen-der-aeltesten-files-in-einem-verzeichnis-nur-die-neuesten-x-bleiben-zurueck) for important bases. ✨ 
 
 Further a big thanks to [Cermit](https://twitter.com/Cermit3273?s=20&t=quwG6m5sDXRab5OmeCgPoQ) for the great help to make my first python project! 🎉 
 
