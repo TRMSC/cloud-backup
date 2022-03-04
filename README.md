@@ -25,7 +25,7 @@ _Until now the script is tested with [Nextcloud](https://nextcloud.com/)._
 
 - Finished! 🎉 
 
-___Note: You can use the script manually or control it with a crownjob!___ 
+___Note: You can use the script manually or control it with a cronjob!___ 
   
 ---  
 
