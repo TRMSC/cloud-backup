@@ -8,7 +8,7 @@ import requests
 import datetime
 import os
 
-print ("Cloud Backup v.1.0")
+print ("Cloud Backup v.1.0.1")
 print ("Feel free to visit trmsc1.wordpress.com")
 print ("\nChecking data...")
 
