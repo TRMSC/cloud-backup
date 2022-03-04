@@ -31,9 +31,9 @@ ___Note: You can use the script manually or control it with a cronjob!___
 
 ### Roadmap:
 
-- Autoremove older backups
-- Making executable files for linux and windows
+- Making executable package files for linux and windows
 - Backup the data-directory from the cloud
+- Integrate configparser module to make settings more comfortable
 
 ---
 
@@ -45,6 +45,9 @@ v.1.0
 v.1.0.1
 - Prevent overwriting todays backup
 - Codecleaning
+
+v.1.1
+- Autoremove older subdirectories by setting the number individually
 
 ---
 
