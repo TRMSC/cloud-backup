@@ -1,4 +1,4 @@
-# Cloud Backup v.1.0.1.1.rmdev - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
+# Cloud Backup v.1.0.1.2.rmdev - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
 
 # Prepare the backdata.txt and put it in the same directory like this script.
@@ -9,7 +9,7 @@ import datetime
 import os
 import shutil
 
-print ("Cloud Backup v.1.0")
+print ("Cloud Backup v.1.0.1.2.rmdev")
 print ("Feel free to visit trmsc1.wordpress.com")
 print ("\nCheck data...")
 
@@ -39,6 +39,10 @@ with open("cloud-backup-data.txt", "r") as backdata:
     url = content[19]
     calendarlist = content[23].replace('\n', "").split(",")
 
+# Check and create storage directory
+if not os.path.exists(path):
+    os.makedirs(path)
+    
 # Check older versions
 print ("\nCheck older versions for cleaning...")
 if os.path.exists(backupdir):
@@ -49,7 +53,7 @@ def sorted_ls(path):
 del_list = sorted_ls(path)[0:(len(sorted_ls(path)) - maintain)]
 print (del_list)
 
-# Check and create directory
+# Check and create todays subfolder
 if not os.path.exists(backupdir):
     os.makedirs(backupdir)
 
