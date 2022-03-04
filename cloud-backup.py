@@ -1,4 +1,4 @@
-# Cloud Backup v.1.0.1.2.rmdev - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
+# Cloud Backup v.1.1 - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
 
 # Prepare the backdata.txt and put it in the same directory like this script.
@@ -9,7 +9,7 @@ import datetime
 import os
 import shutil
 
-print ("Cloud Backup v.1.0.1.2.rmdev")
+print ("Cloud Backup v.1.1")
 print ("Feel free to visit trmsc1.wordpress.com")
 print ("\nCheck data...")
 
