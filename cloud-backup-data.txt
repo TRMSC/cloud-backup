@@ -22,3 +22,6 @@ YOURURL/remote.php/dav/calendars/USERNAME/
 # List your calendar names with commas and no spaces. 
 # Maybe you have to check the individual urls for the correct deposited names (e.g. "holidays-1" instead of "holidays"):
 CALENDARNAME1,CALENDARNAME2
+
+# ADD DIRECTORY OF YOUR LOCAL CLOUD CLIENT
+/home/USER/CLOUD
