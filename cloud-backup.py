@@ -1,4 +1,4 @@
-# Cloud Backup v.1.1 - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
+# Cloud Backup v.1.1.filedev - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
 
 # Prepare the backdata.txt and put it in the same directory like this script.
@@ -15,6 +15,7 @@ print ("Feel free to visit trmsc1.wordpress.com")
 print ("\nCheck data...")
 
 # Check date
+starttime = datetime.datetime.now()
 folderdate = datetime.datetime.now().strftime("%Y-%m-%d")
 filedate = folderdate + datetime.datetime.now().strftime("-%H-%M")
 print ("Time is " + filedate)
@@ -83,7 +84,7 @@ with open(filename, 'wb') as a:
 # Copy and zip local client files
 clientfile = backupdir + filedate + "-localfiles.zip"
 countfiles = 0
-print ("Create " + clientfile + " and ad files...")
+print ("\nCreate " + clientfile + " and ad files...")
 with zipfile.ZipFile(clientfile, 'w', zipfile.ZIP_DEFLATED) as target:
     for root, dirs, files in os.walk(clientfolder):
         for file in files:
@@ -96,10 +97,12 @@ print (str(countfiles) + " files were added to " + clientfile)
 # Remove older versions
 print ("\nClean older versions...")
 if del_list == []:
-    print ("[]")
+    print ("none")
 for dfile in del_list:
     print ("Removing " + path + dfile)
     shutil.rmtree(path + dfile)
 
 # Finish
-print ("\nBackup finished")
+endtime = datetime.datetime.now()
+duration = endtime - starttime
+print ("\nBackup finished after a duration of " + str(duration))
