@@ -8,6 +8,7 @@ import requests
 import datetime
 import os
 import shutil
+import zipfile
 
 print ("Cloud Backup v.1.1")
 print ("Feel free to visit trmsc1.wordpress.com")
@@ -38,6 +39,8 @@ with open("cloud-backup-data.txt", "r") as backdata:
     urlvcf = urlvcf.replace('\n', "")
     url = content[19]
     calendarlist = content[23].replace('\n', "").split(",")
+    clientfolder = content[26]
+    clientfolder = clientfolder.replace('\n', "")
 
 # Check and create storage directory
 if not os.path.exists(path):
@@ -76,6 +79,19 @@ print ("Downloading " + filename)
 r = requests.get(urlvcf, auth=(user, passwd),allow_redirects=True)
 with open(filename, 'wb') as a:
     a.write(r.content)
+    
+# Copy and zip local client files
+clientfile = backupdir + filedate + "-localfiles.zip"
+countfiles = 0
+print ("Create " + clientfile + " and ad files...")
+with zipfile.ZipFile(clientfile, 'w', zipfile.ZIP_DEFLATED) as target:
+    for root, dirs, files in os.walk(clientfolder):
+        for file in files:
+            add = os.path.join(root, file)
+            target.write(add)
+            print("Add " + add)
+            countfiles +=1
+print (str(countfiles) + " files were added to " + clientfile)
 
 # Remove older versions
 print ("\nClean older versions...")
