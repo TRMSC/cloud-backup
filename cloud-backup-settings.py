@@ -5,23 +5,24 @@ import configparser
 
 print ("Welcome to the settings for your cloud-backup (v.1.1)")
 
+depart = 0
 def startSettings():
-    x = input ("\nDo you want to start the auto (1) or custom (2) settings? Type (3) for exit. ")
-    x = int(x)
-    if x==1:
-        setAuto()
-    elif x==2:
-        setCustom()
-    elif x==3:
+    depart = input ("\nDo you want to start the auto (1) or custom (2) settings? Type (3) for exit. ")
+    depart = int(depart)
+    if depart==1:
+        setAuto(depart)
+    elif depart==2:
+        setCustom(depart)
+    elif depart==3:
         exit()
     else:
         startSettings()
 
-def setAuto():
+def setAuto(depart):
     print ("Start auto settings...")
     print ("\nGENERAL")
 
-def setCustom():
+def setCustom(depart):
     print ("Start custom settings...")
     print ("\nGENERAL SETTINGS")
     print ("1 - Change directory")
