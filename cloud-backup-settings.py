@@ -3,6 +3,7 @@
 
 import configparser
 import numbers
+import os
 
 config = configparser.ConfigParser()
 
@@ -23,7 +24,11 @@ def startSettings():
         startSettings()
 
 def readData():
-    config.read ("data.ini")
+
+    data = os.path.dirname(__file__) 
+    data = data + "/data.ini"
+    print (data)
+    config.read (data)
     val = []
     x = 0
     for key in config["GENERAL"]:  
