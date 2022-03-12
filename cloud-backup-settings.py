@@ -2,21 +2,50 @@
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
 
 import configparser
+import numbers
 
-print ("Welcome to the settings for your cloud-backup (v.1.1)")
+config = configparser.ConfigParser()
 
-depart = 0
+print ("Welcome to the settings for your cloud-backup (v.1.1)\n")
+
 def startSettings():
+    val = readData()
+    printData(val)
     depart = input ("\nDo you want to start the auto (1) or custom (2) settings? Type (3) for exit. ")
     depart = int(depart)
-    if depart==1:
+    if depart == 1:
         setAuto(depart)
-    elif depart==2:
+    elif depart == 2:
         setCustom(depart)
-    elif depart==3:
+    elif depart == 3:
         exit()
     else:
         startSettings()
+
+def readData():
+    config.read ("data.ini")
+    val = []
+    x = 0
+    for key in config["GENERAL"]:  
+        val.append(config["GENERAL"][key])
+    return (val)
+
+def printData(val):
+    encr = ""
+    x = 0
+    while x < len(val[3]):
+        encr += "*"
+        x += 1
+
+    print ("Backup directory: " + val[0])
+    print ("Stored backup days: " + val[1])
+    print ("Username: " + val[2])
+    print ("Password: " + encr)
+    print ("Adressbook URL: " + val[5])
+    print ("Calendar URL: " + val[6])
+    print ("Calendar list: " + val[7])
+    print ("Local client directory: " + val[8])
+
 
 def setAuto(depart):
     print ("Start auto settings...")
