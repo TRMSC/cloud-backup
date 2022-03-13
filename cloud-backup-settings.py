@@ -47,14 +47,17 @@ def printData(val):
         encr += "*"
         x += 1
     print ("Last modified: " + val[0])
-    print ("Backup directory: " + val[1])
+    print ("\nBackup directory: " + val[1])
     print ("Stored backup days: " + val[2])
-    print ("Username: " + val[3])
+    print ("\nUsername: " + val[3])
     print ("Password: " + encr)
-    print ("Adressbook URL: " + val[5])
-    print ("Calendar URL: " + val[6])
-    print ("Calendar list: " + val[7])
-    print ("Local client directory: " + val[8])
+    print ("\nAdressbook storage activated: " + val[5])
+    print ("Adressbook URL: " + val[6])
+    print ("\nCalendar storage activated: " + val[7])
+    print ("Calendar URL: " + val[8])
+    print ("Calendar list: " + val[9])
+    print ("\nClient storage activated: " + val[10])
+    print ("Local client directory: " + val[11])
     return
 
 def setCustom(depart):
@@ -67,15 +70,15 @@ def setCustom(depart):
     print ("3 - Set username")
     print ("4 - Set password")
     print ("\nADRESSBOOK BACKUP")
-    print ("6 - Activate adressbook backup")
-    print ("5 - Adressbook url")
+    print ("5 - Activate adressbook backup")
+    print ("6 - Adressbook url")
     print ("\nCALENDAR BACKUP")
-    print ("6 - Activate calendar backup")
-    print ("7 - Calendar url")
-    print ("8 - Calendar list")
+    print ("7 - Activate calendar backup")
+    print ("8 - Calendar url")
+    print ("9 - Calendar list")
     print ("\nDATA BACKUP")
-    print ("9 - Activate data backup from desktop client")
-    print ("10 - Client path")
+    print ("10 - Activate data backup from desktop client")
+    print ("11 - Client path")
     item = input ("\nWhich number do you want to change? Press (x) for exit. ")
     if item == "x":
         startMain()
@@ -96,12 +99,52 @@ def startProgress(depart, item):
     if item == 2:
         place = "number"
         print ("Number of stored backup days: " + str(val[item]))
+    if item == 3:
+        place = "user"
+        print ("Username is: " + str(val[item]))
+    if item == 4:
+        place = "pwd"
+        print ("Password is: " + str(val[item]))
+    if item == 5:
+        place = "cardAct"
+        print ("Adressbook storage activated: " + str(val[item]))
+    if item == 6:
+        place = "card"
+        print ("Adressbook URL is: " + str(val[item]))
+    if item == 7:
+        place = "calAct"
+        print ("Calendar storage activated: " + str(val[item]))
+    if item == 8:
+        place = "cal"
+        print ("Calendar URL is: " + str(val[item]))
+    if item == 9:
+        place = "callist"
+        print ("Calendar URL is: " + str(val[item]))
+    if item == 10:
+        place = "clientAct"
+        print ("Client storage activated: " + str(val[item]))
+    if item == 11:
+        place = "client"
+        print ("Client path is: " + str(val[item]))
     if item == 11 and depart == 1:
         input ("Congratulations! Setting ist complete! Press enter to return.")
         startMain()   
-    change = input ("Type in a new value or press (x) for exit: ")
-    if change == "x":
+
+    if item == 5 or item == 7 or item == 10:
+        change = input ("Type (0) for deactivate, (1) for activate or press (x) for exit: ")
+        if change == "0":
+            change = "false"
+        elif change == "1":
+            change = "true"
+    # remaining: encrypt password input
+    # remaining: calendarlist
+    else:
+        change = input ("Type in a new value or press (x) for exit: ")
+
+    if change == "x" and depart == 1:
         startMain()
+    elif change == "x" and depart == 2:
+        setCustom(depart)
     else:
         config["GENERAL"][place] = change
         config["GENERAL"]["date"] = datetime.datetime.now().strftime("%Y-%m-%d / %H-%M")
@@ -113,7 +156,7 @@ def startProgress(depart, item):
             item +=1
             startProgress(depart, item)
         elif depart == 2:
-            startMain()
+            setCustom(depart)
     return
 
 startMain()
