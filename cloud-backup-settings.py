@@ -6,6 +6,7 @@
 import configparser
 import numbers
 import os
+import datetime
 
 config = configparser.ConfigParser()
 
@@ -57,7 +58,8 @@ def printData(val):
     return
 
 def setCustom(depart):
-    print ("Start custom settings...")
+    val = readData()
+    print ("Last modified: " + val[0])
     print ("\nGENERAL SETTINGS")
     print ("1 - Change directory")
     print ("2 - Number of stored backups")
@@ -102,6 +104,7 @@ def startProgress(depart, item):
         startMain()
     else:
         config["GENERAL"][place] = change
+        config["GENERAL"]["date"] = datetime.datetime.now().strftime("%Y-%m-%d / %H-%M")
         data = os.path.dirname(__file__) 
         data = data + "/data.ini"
         with open(data, 'w') as configfile:
