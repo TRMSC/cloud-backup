@@ -100,7 +100,7 @@ def startProgress(depart, item):
         print ("Setting progress: " + str(percent) + "%\n")
     if item == 1:
         place = "directory"
-        print ("Backup directory is " + str(val[item]))
+        print ("Backup directory is: " + str(val[item]))
     if item == 2:
         place = "number"
         print ("Number of stored backup days: " + str(val[item]))
