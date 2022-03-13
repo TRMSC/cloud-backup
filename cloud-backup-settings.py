@@ -7,6 +7,7 @@ import configparser
 import numbers
 import os
 import datetime
+import getpass
 
 config = configparser.ConfigParser()
 
@@ -41,11 +42,7 @@ def readData():
     return (val)
 
 def printData(val):
-    encr = ""
-    x = 0
-    while x < len(val[4]):
-        encr += "*"
-        x += 1
+    encr = encryptPwd(val)
     print ("Last modified: " + val[0])
     print ("\nBackup directory: " + val[1])
     print ("Stored backup days: " + val[2])
@@ -59,6 +56,14 @@ def printData(val):
     print ("\nClient storage activated: " + val[10])
     print ("Local client directory: " + val[11])
     return
+
+def encryptPwd(val):
+    encr = ""
+    x = 0
+    while x < len(val[4]):
+        encr += "*"
+        x += 1
+    return encr
 
 def setCustom(depart):
     val = readData()
@@ -79,7 +84,7 @@ def setCustom(depart):
     print ("\nDATA BACKUP")
     print ("10 - Activate data backup from desktop client")
     print ("11 - Client path")
-    item = input ("\nWhich number do you want to change? Press (x) for exit. ")
+    item = input ("\nWhich number do you want to change? Press (x) for abort. ")
     if item == "x":
         startMain()
     else:
@@ -103,8 +108,9 @@ def startProgress(depart, item):
         place = "user"
         print ("Username is: " + str(val[item]))
     if item == 4:
+        encr = encryptPwd(val)
         place = "pwd"
-        print ("Password is: " + str(val[item]))
+        print ("Password is: " + encr)
     if item == 5:
         place = "cardAct"
         print ("Adressbook storage activated: " + str(val[item]))
@@ -131,15 +137,17 @@ def startProgress(depart, item):
         startMain()   
 
     if item == 5 or item == 7 or item == 10:
-        change = input ("Type (0) for deactivate, (1) for activate or press (x) for exit: ")
+        change = input ("Type (0) for deactivate, (1) for activate or press (x) for abort: ")
         if change == "0":
             change = "false"
         elif change == "1":
             change = "true"
-    # remaining: encrypt password input
+    elif item == 4:
+        change = getpass.getpass ("Type in your password or press (x) for abort. Input is hidden: ")
+
     # remaining: calendarlist
     else:
-        change = input ("Type in a new value or press (x) for exit: ")
+        change = input ("Type in a new value or press (x) for abort: ")
 
     if change == "x" and depart == 1:
         startMain()
