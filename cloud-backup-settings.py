@@ -38,13 +38,14 @@ def readData():
 def printData(val):
     encr = ""
     x = 0
-    while x < len(val[3]):
+    while x < len(val[4]):
         encr += "*"
         x += 1
 
-    print ("Backup directory: " + val[0])
-    print ("Stored backup days: " + val[1])
-    print ("Username: " + val[2])
+    print ("Last modified: " + val[0])
+    print ("Backup directory: " + val[1])
+    print ("Stored backup days: " + val[2])
+    print ("Username: " + val[3])
     print ("Password: " + encr)
     print ("Adressbook URL: " + val[5])
     print ("Calendar URL: " + val[6])
