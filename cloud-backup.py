@@ -23,7 +23,9 @@ filedate = folderdate + datetime.datetime.now().strftime("-%H-%M")
 print ("Time is " + filedate)
 
 # Check data
-with open("cloud-backup-data.txt", "r") as backdata:
+config = os.path.dirname(__file__) 
+config = config + "/cloud-backup-data.txt"
+with open(data, "r") as backdata:
     content = backdata.readlines ()
     path = content[6]
     path = path.replace('\n', "")
