@@ -109,4 +109,4 @@ for dfile in del_list:
 # Finish
 endtime = datetime.datetime.now()
 duration = endtime - starttime
-print ("\nBackup finished after a duration of " + str(duration))
+print ("\nBackup finished after a duration of " + str(duration) + "s.")
