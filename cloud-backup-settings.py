@@ -8,6 +8,7 @@ import numbers
 import os
 import datetime
 import getpass
+from pickle import TRUE
 
 config = configparser.ConfigParser()
 
@@ -33,7 +34,6 @@ def startMain():
 def readData():
     data = os.path.dirname(__file__) 
     data = data + "/data.ini"
-    print (data)
     config.read (data)
     val = []
     x = 0
@@ -125,7 +125,7 @@ def startProgress(depart, item):
         print ("Calendar URL is: " + str(val[item]))
     if item == 9:
         place = "callist"
-        print ("Calendar URL is: " + str(val[item]))
+        print ("Calendarlist is: " + str(val[item]))
     if item == 10:
         place = "clientAct"
         print ("Client storage activated: " + str(val[item]))
@@ -139,20 +139,24 @@ def startProgress(depart, item):
     if item == 5 or item == 7 or item == 10:
         change = input ("Type (0) for deactivate, (1) for activate or press (x) for abort: ")
         if change == "0":
-            change = "false"
+            change = "no"
         elif change == "1":
-            change = "true"
+            change = "yes"
     elif item == 4:
         change = getpass.getpass ("Type in your password or press (x) for abort. Input is hidden: ")
-
-    # remaining: calendarlist
+    elif item == 9:
+        # ONLY CHECK AND EDIT VALUES, THEN COME BACK
+        change = openList ()
     else:
         change = input ("Type in a new value or press (x) for abort: ")
+        change = str(change)
 
     if change == "x" and depart == 1:
         startMain()
+        return
     elif change == "x" and depart == 2:
         setCustom(depart)
+        return
     else:
         config["GENERAL"][place] = change
         config["GENERAL"]["date"] = datetime.datetime.now().strftime("%Y-%m-%d / %H-%M")
@@ -167,4 +171,48 @@ def startProgress(depart, item):
             setCustom(depart)
     return
 
+def openList ():
+    val = readData()
+    calendarlist = val[9].replace('\n', "").split(",")
+    listcontent = val[9]
+    choice = ""
+    while choice != "x":
+        items = len(calendarlist)
+        itemsDisp = items + 1
+        position = 0
+        print("")
+        if position == items:
+            print ("No calendarlists...")
+        else:
+            while position < items:
+                posDisp = position + 1
+                valDisp = calendarlist[position]
+                print (str(posDisp) + " - " + valDisp)
+                position += 1
+        choice = input("Type in a new calendar name, type an item number for deleting or type (x) to finish. ")
+        isInt = True
+        try:
+            int(choice)
+        except ValueError:
+            isInt = False
+        if isInt and int(choice) < itemsDisp:
+            print ("YES")
+            choice = int(choice) - 1
+            del calendarlist[choice]
+            listcontent = ",".join(calendarlist)
+            print(listcontent)
+        elif isInt and int(choice) >= itemsDisp:
+            print ("CALENDAR DOES NOT EXIST.")
+        elif choice != "x":
+            listcontent = listcontent + "," +  choice
+            calendarlist = listcontent.replace('\n', "").split(",")
+            print (listcontent)
+    print ("\nOld version: " + val[9])
+    print ("New version: " + listcontent)
+    choice = input ("Press (x) to abort or press only enter ro save. ")
+    if choice == "x":
+        return val[9]
+    else:
+        return listcontent
+    
 startMain()
