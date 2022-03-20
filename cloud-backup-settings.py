@@ -12,7 +12,7 @@ from pickle import TRUE
 
 config = configparser.ConfigParser()
 
-print ("Welcome to the settings for your cloud-backup (v.1.1)\n")
+print ("\nWelcome to cloud-backup configuration (v.1.1)\n")
 
 def startMain():
     val = readData()
@@ -95,9 +95,9 @@ def setCustom(depart):
 def startProgress(depart, item):
     val = readData()
     print ("")
-    if depart == 1:
-        percent = (item - 1) * 10
-        print ("Setting progress: " + str(percent) + "%\n")
+    if depart == 1 and item < 12:
+        percent = (item - 1) * 9
+        print ("### Setting progress: " + str(percent) + "% ###\n")
     if item == 1:
         place = "directory"
         print ("Backup directory is: " + str(val[item]))
@@ -132,9 +132,11 @@ def startProgress(depart, item):
     if item == 11:
         place = "client"
         print ("Client path is: " + str(val[item]))
-    if item == 11 and depart == 1:
+    if item == 12 and depart == 1:
+        print ("### Setting progress: 90% ###\n")
         input ("Congratulations! Setting ist complete! Press enter to return.")
         startMain()   
+        return
 
     if item == 5 or item == 7 or item == 10:
         change = input ("Type (0) for deactivate, (1) for activate or press (x) for abort: ")
@@ -175,8 +177,8 @@ def openList ():
     val = readData()
     calendarlist = val[9].replace('\n', "").split(",")
     listcontent = val[9]
-    choice = ""
-    while choice != "x":
+    choice = "x"
+    while choice != "":
         items = len(calendarlist)
         itemsDisp = items + 1
         position = 0
@@ -189,7 +191,7 @@ def openList ():
                 valDisp = calendarlist[position]
                 print (str(posDisp) + " - " + valDisp)
                 position += 1
-        choice = input("Type in a new calendar name, type an item number for deleting or type (x) to finish. ")
+        choice = input("Type in a new calendar name, type an item number for deleting or press enter to finish. ")
         isInt = True
         try:
             int(choice)
@@ -203,13 +205,13 @@ def openList ():
             print(listcontent)
         elif isInt and int(choice) >= itemsDisp:
             print ("CALENDAR DOES NOT EXIST.")
-        elif choice != "x":
+        elif choice != "":
             listcontent = listcontent + "," +  choice
             calendarlist = listcontent.replace('\n', "").split(",")
             print (listcontent)
     print ("\nOld version: " + val[9])
     print ("New version: " + listcontent)
-    choice = input ("Press (x) to abort or press only enter ro save. ")
+    choice = input ("Press (x) to discard changes or press enter to save. ")
     if choice == "x":
         return val[9]
     else:
