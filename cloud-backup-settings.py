@@ -12,7 +12,7 @@ from pickle import TRUE
 
 config = configparser.ConfigParser()
 
-print ("\nWelcome to cloud-backup configuration (v.1.1)\n")
+print ("\nWELCOME TO CLOUD-BACKUP CONFIGURATION (v.1.1)\n")
 
 def startMain():
     val = readData()
@@ -67,29 +67,27 @@ def encryptPwd(val):
 
 def setCustom(depart):
     val = readData()
-    print ("Last modified: " + val[0])
-    print ("\nGENERAL SETTINGS")
-    print ("1 - Change directory")
-    print ("2 - Number of stored backups")
-    print ("\nACCESS DECLARATIONS")
-    print ("3 - Set username")
-    print ("4 - Set password")
-    print ("\nADRESSBOOK BACKUP")
-    print ("5 - Activate adressbook backup")
-    print ("6 - Adressbook url")
-    print ("\nCALENDAR BACKUP")
-    print ("7 - Activate calendar backup")
-    print ("8 - Calendar url")
-    print ("9 - Calendar list")
-    print ("\nDATA BACKUP")
-    print ("10 - Activate data backup from desktop client")
-    print ("11 - Client path")
-    item = input ("\nWhich number do you want to change? Press (x) for abort. ")
+    encr = encryptPwd(val)
+    print ("Last modified: " + val[0] + "\n")
+    print (" 1 - GENERAL - Change backup directory (" + val[1] + ")")
+    print (" 2 - GENERAL - Number of stored backups (" + val[2] + ")")
+    print (" 3 - ACCESS - Set username (" + val[3] + ")")
+    print (" 4 - ACCESS - Set password (" + encr + ")")
+    print (" 5 - ADRESSBOOK - Activate adressbook backup (" + val[5] + ")")
+    print (" 6 - ADRESSBOOK - Adressbook url (" + val[6] + ")")
+    print (" 7 - CALENDAR - Activate calendar backup (" + val[7] + ")")
+    print (" 8 - CALENDAR - Calendar url (" + val[8] + ")")
+    print (" 9 - CALENDAR - Calendar list (" + val[9] + ")")
+    print ("10 - DATA - Activate data backup from desktop client (" + val[10] + ")")
+    print ("11 - DATA - Client path (" + val[11] + ")")
+    item = input ("\nPress enter to start auto settings, type (x) to exit or type in the number you want to change. ")
     if item == "x":
-        startMain()
+        exit()
+    elif item == "":
+        startProgress(1, 1)
     else:
         item = int(item)
-        startProgress(depart, item)
+        startProgress(2, item)
     return
 
 def startProgress(depart, item):
@@ -139,24 +137,31 @@ def startProgress(depart, item):
         return
 
     if item == 5 or item == 7 or item == 10:
-        change = input ("Type (0) for deactivate, (1) for activate or press (x) for abort: ")
+        change = input ("Type (0) for deactivate, (1) for activate or press enter to skip: ")
         if change == "0":
             change = "no"
         elif change == "1":
             change = "yes"
     elif item == 4:
-        change = getpass.getpass ("Type in your password or press (x) for abort. Input is hidden: ")
+        change = getpass.getpass ("Type in your password or press enter to skip. Input is hidden: ")
     elif item == 9:
         # ONLY CHECK AND EDIT VALUES, THEN COME BACK
         change = openList ()
     else:
-        change = input ("Type in a new value or press (x) for abort: ")
+        if depart == 1:
+            change = input ("Type in a new value, type (x) to abort or press enter to skip: ")
+        elif depart == 2:
+            change = input ("Type in a new value or press enter to abort: ")
         change = str(change)
 
-    if change == "x" and depart == 1:
-        startMain()
+    if change == "" and depart == 1:
+        item = int(item) + 1
+        startProgress(1, item)
         return
-    elif change == "x" and depart == 2:
+    elif change == "x" and depart == 1:
+        setCustom(depart)
+        return        
+    elif change == "" and depart == 2:
         setCustom(depart)
         return
     else:
@@ -191,7 +196,7 @@ def openList ():
                 valDisp = calendarlist[position]
                 print (str(posDisp) + " - " + valDisp)
                 position += 1
-        choice = input("Type in a new calendar name, type an item number for deleting or press enter to finish. ")
+        choice = input("Type in a new calendar name, type an item number for deleting or press enter to skip/ finish. ")
         isInt = True
         try:
             int(choice)
