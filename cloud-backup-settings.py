@@ -10,62 +10,8 @@ import datetime
 import getpass
 from pickle import TRUE
 
-config = configparser.ConfigParser()
-
-print ("\nWELCOME TO CLOUD-BACKUP CONFIGURATION (v.1.1)\n")
-
-def startMain():
-    val = readData()
-    printData(val)
-    depart = input ("\nDo you want to start auto (1) or custom (2) settings? Type (x) for exit. ")
-    if depart == "x":
-        exit()
-    depart = int(depart)
-    if depart == 1:
-        startProgress(depart, 1)
-    elif depart == 2:
-        setCustom(depart)
-    elif depart == 0:
-        exit()
-    else:
-        startMain()
-    return
-
-def readData():
-    data = os.path.dirname(__file__) 
-    data = data + "/data.ini"
-    config.read (data)
-    val = []
-    x = 0
-    for key in config["GENERAL"]:  
-        val.append(config["GENERAL"][key])
-    return (val)
-
-def printData(val):
-    encr = encryptPwd(val)
-    print ("Last modified: " + val[0])
-    print ("\nBackup directory: " + val[1])
-    print ("Stored backup days: " + val[2])
-    print ("\nUsername: " + val[3])
-    print ("Password: " + encr)
-    print ("\nAdressbook storage activated: " + val[5])
-    print ("Adressbook URL: " + val[6])
-    print ("\nCalendar storage activated: " + val[7])
-    print ("Calendar URL: " + val[8])
-    print ("Calendar list: " + val[9])
-    print ("\nClient storage activated: " + val[10])
-    print ("Local client directory: " + val[11])
-    return
-
-def encryptPwd(val):
-    encr = ""
-    x = 0
-    while x < len(val[4]):
-        encr += "*"
-        x += 1
-    return encr
-
 def setCustom(depart):
+    depart = 0
     val = readData()
     encr = encryptPwd(val)
     print ("Last modified: " + val[0] + "\n")
@@ -80,19 +26,47 @@ def setCustom(depart):
     print (" 9 - CALENDAR - Calendar list (" + val[9] + ")")
     print ("10 - DATA - Activate data backup from desktop client (" + val[10] + ")")
     print ("11 - DATA - Client path (" + val[11] + ")")
-    item = input ("\nPress enter to start auto settings, type (x) to exit or type in the number you want to change. ")
-    if item == "x":
-        exit()
-    elif item == "":
-        startProgress(1, 1)
-    else:
-        item = int(item)
-        startProgress(2, item)
+    print ("")
+    check = 0
+    while check == 0:
+        item = input ("Press enter to start auto settings, type (x) to exit or type in the number you want to change. ")
+        if item == "x":
+            exit()
+        elif item == "":
+            startProgress(1, 1)
+            check = 1
+        else:
+            item = int(item)
+            if item > 0 and item <= 11:
+                startProgress(2, item)
+                check = 1
+            else:
+                check = 0
     return
+
+def readData():
+    data = os.path.dirname(__file__) 
+    data = data + "/data.ini"
+    config.read (data)
+    val = []
+    x = 0
+    for key in config["GENERAL"]:  
+        val.append(config["GENERAL"][key])
+    return (val)
+
+def encryptPwd(val):
+    encr = ""
+    x = 0
+    while x < len(val[4]):
+        encr += "*"
+        x += 1
+    return encr
 
 def startProgress(depart, item):
     val = readData()
+    check = 0
     print ("")
+    # Print items and values
     if depart == 1 and item < 12:
         percent = (item - 1) * 9
         print ("### Setting progress: " + str(percent) + "% ###\n")
@@ -135,17 +109,21 @@ def startProgress(depart, item):
         input ("Congratulations! Setting ist complete! Press enter to return.")
         startMain()   
         return
-
+    # Input actions
     if item == 5 or item == 7 or item == 10:
-        change = input ("Type (0) for deactivate, (1) for activate or press enter to skip: ")
-        if change == "0":
-            change = "no"
-        elif change == "1":
-            change = "yes"
+        while check == 0:
+            change = input ("Type (0) for deactivate, (1) for activate or press enter to skip: ")
+            if change == "0":
+                change = "no"
+                check = 1
+            elif change == "1":
+                change = "yes"
+                check = 1
+            elif change == "":
+                check = 1
     elif item == 4:
         change = getpass.getpass ("Type in your password or press enter to skip. Input is hidden: ")
     elif item == 9:
-        # ONLY CHECK AND EDIT VALUES, THEN COME BACK
         change = openList ()
     else:
         if depart == 1:
@@ -153,7 +131,6 @@ def startProgress(depart, item):
         elif depart == 2:
             change = input ("Type in a new value or press enter to abort: ")
         change = str(change)
-
     if change == "" and depart == 1:
         item = int(item) + 1
         startProgress(1, item)
@@ -221,5 +198,42 @@ def openList ():
         return val[9]
     else:
         return listcontent
+
+# NECCESSARY???  
+def startMain():
+    val = readData()
+    printData(val)
+    depart = input ("\nDo you want to start auto (1) or custom (2) settings? Type (x) for exit. ")
+    if depart == "x":
+        exit()
+    depart = int(depart)
+    if depart == 1:
+        startProgress(depart, 1)
+    elif depart == 2:
+        setCustom(depart)
+    elif depart == 0:
+        exit()
+    else:
+        startMain()
+    return
+ 
+def printData(val):
+    encr = encryptPwd(val)
+    print ("Last modified: " + val[0])
+    print ("\nBackup directory: " + val[1])
+    print ("Stored backup days: " + val[2])
+    print ("\nUsername: " + val[3])
+    print ("Password: " + encr)
+    print ("\nAdressbook storage activated: " + val[5])
+    print ("Adressbook URL: " + val[6])
+    print ("\nCalendar storage activated: " + val[7])
+    print ("Calendar URL: " + val[8])
+    print ("Calendar list: " + val[9])
+    print ("\nClient storage activated: " + val[10])
+    print ("Local client directory: " + val[11])
+    return
     
-startMain()
+config = configparser.ConfigParser()
+depart = 0
+print ("\nWELCOME TO CLOUD-BACKUP CONFIGURATION (v.1.1)\n")
+setCustom(depart)
