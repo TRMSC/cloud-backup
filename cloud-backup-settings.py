@@ -13,6 +13,7 @@ from pickle import TRUE
 def initConfig():
     val = readData()
     encr = encryptPwd(val)
+    print ("\n- - - - - - - - - - - - - - - - -")
     print ("Last modified: " + val[0] + "\n")
     print (" 1 - GENERAL - Change backup directory (" + val[1] + ")")
     print (" 2 - GENERAL - Number of stored backups (" + val[2] + ")")
@@ -68,6 +69,7 @@ def startProgress(depart, item):
     # Print items and values
     if depart == 1 and item < 12:
         percent = (item - 1) * 9
+        print ("- - - - - - - - - - - - - - -")
         print ("### Setting progress: " + str(percent) + "% ###\n")
     if item == 1:
         place = "directory"
@@ -104,7 +106,8 @@ def startProgress(depart, item):
         place = "client"
         print ("Client path is: " + str(val[item]))
     if item == 12 and depart == 1:
-        print ("### Setting progress: 90% ###\n")
+        print ("- - - - - - - - - - - - - - -")
+        print ("### Setting progress: 100% ###\n")
         input ("Congratulations! Setting ist complete! Press enter to return.")
         initConfig()   
         return
@@ -198,5 +201,5 @@ def openCallist ():
         return listcontent
     
 config = configparser.ConfigParser()
-print ("\nWELCOME TO CLOUD-BACKUP CONFIGURATION (v.1.1)\n")
+print ("\nWELCOME TO CLOUD-BACKUP CONFIGURATION (v.1.1)")
 initConfig()
