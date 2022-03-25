@@ -201,5 +201,6 @@ def openCallist ():
         return listcontent
     
 config = configparser.ConfigParser()
-print ("\nWELCOME TO CLOUD-BACKUP CONFIGURATION (v.1.1)")
+print ("\nWelcome to cloud-backup configuration v.1.1")
+print ("Feel free to visit trmsc1.wordpress.com")
 initConfig()
