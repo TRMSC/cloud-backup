@@ -10,8 +10,7 @@ import datetime
 import getpass
 from pickle import TRUE
 
-def setCustom(depart):
-    depart = 0
+def initConfig():
     val = readData()
     encr = encryptPwd(val)
     print ("Last modified: " + val[0] + "\n")
@@ -107,7 +106,7 @@ def startProgress(depart, item):
     if item == 12 and depart == 1:
         print ("### Setting progress: 90% ###\n")
         input ("Congratulations! Setting ist complete! Press enter to return.")
-        setCustom()   
+        initConfig()   
         return
     # Input actions
     if item == 5 or item == 7 or item == 10:
@@ -124,7 +123,7 @@ def startProgress(depart, item):
     elif item == 4:
         change = getpass.getpass ("Type in your password or press enter to skip. Input is hidden: ")
     elif item == 9:
-        change = openList ()
+        change = openCallist ()
     else:
         if depart == 1:
             change = input ("Type in a new value, type (x) to abort or press enter to skip: ")
@@ -136,10 +135,10 @@ def startProgress(depart, item):
         startProgress(1, item)
         return
     elif change == "x" and depart == 1:
-        setCustom(depart)
+        initConfig()
         return        
-    elif change == "" and depart == 2:
-        setCustom(depart)
+    elif change == "" and depart == 2 and item != 9:
+        initConfig()
         return
     else:
         config["GENERAL"][place] = change
@@ -152,10 +151,10 @@ def startProgress(depart, item):
             item +=1
             startProgress(depart, item)
         elif depart == 2:
-            setCustom(depart)
+            initConfig()
     return
 
-def openList ():
+def openCallist ():
     val = readData()
     calendarlist = val[9].replace('\n', "").split(",")
     listcontent = val[9]
@@ -180,7 +179,6 @@ def openList ():
         except ValueError:
             isInt = False
         if isInt and int(choice) < itemsDisp:
-            print ("YES")
             choice = int(choice) - 1
             del calendarlist[choice]
             listcontent = ",".join(calendarlist)
@@ -200,6 +198,5 @@ def openList ():
         return listcontent
     
 config = configparser.ConfigParser()
-depart = 0
 print ("\nWELCOME TO CLOUD-BACKUP CONFIGURATION (v.1.1)\n")
-setCustom(depart)
+initConfig()
