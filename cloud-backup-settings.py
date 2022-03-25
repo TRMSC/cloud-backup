@@ -107,7 +107,7 @@ def startProgress(depart, item):
     if item == 12 and depart == 1:
         print ("### Setting progress: 90% ###\n")
         input ("Congratulations! Setting ist complete! Press enter to return.")
-        startMain()   
+        setCustom()   
         return
     # Input actions
     if item == 5 or item == 7 or item == 10:
@@ -198,40 +198,6 @@ def openList ():
         return val[9]
     else:
         return listcontent
-
-# NECCESSARY???  
-def startMain():
-    val = readData()
-    printData(val)
-    depart = input ("\nDo you want to start auto (1) or custom (2) settings? Type (x) for exit. ")
-    if depart == "x":
-        exit()
-    depart = int(depart)
-    if depart == 1:
-        startProgress(depart, 1)
-    elif depart == 2:
-        setCustom(depart)
-    elif depart == 0:
-        exit()
-    else:
-        startMain()
-    return
- 
-def printData(val):
-    encr = encryptPwd(val)
-    print ("Last modified: " + val[0])
-    print ("\nBackup directory: " + val[1])
-    print ("Stored backup days: " + val[2])
-    print ("\nUsername: " + val[3])
-    print ("Password: " + encr)
-    print ("\nAdressbook storage activated: " + val[5])
-    print ("Adressbook URL: " + val[6])
-    print ("\nCalendar storage activated: " + val[7])
-    print ("Calendar URL: " + val[8])
-    print ("Calendar list: " + val[9])
-    print ("\nClient storage activated: " + val[10])
-    print ("Local client directory: " + val[11])
-    return
     
 config = configparser.ConfigParser()
 depart = 0
