@@ -1,18 +1,22 @@
-#!/usr/bin/env python
-
-# Cloud Backup v.1.1.filedev - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
+# Cloud Backup v.1.1 - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
 
 # Prepare the backdata.txt and put it in the same directory like this script.
 # Then you can backup your calendars and adressbook directly from the cloud.
 
+import configparser
 import requests
 import datetime
 import os
 import shutil
 import zipfile
 
-print ("Cloud Backup v.1.1")
+def checkSlash(check):
+    if check[-1] != "/":
+        check = check + "/"
+    return check
+
+print ("Cloud Backup v.1.1filedev")
 print ("Feel free to visit trmsc1.wordpress.com")
 print ("\nCheck data...")
 
@@ -23,29 +27,27 @@ filedate = folderdate + datetime.datetime.now().strftime("-%H-%M")
 print ("Time is " + filedate)
 
 # Check data
-config = os.path.dirname(__file__) 
-config = config + "/cloud-backup-data.txt"
-with open(data, "r") as backdata:
-    content = backdata.readlines ()
-    path = content[6]
-    path = path.replace('\n', "")
-    backupdir = path + folderdate + "/"
-    backupdir = backupdir.replace('\n', "")
-    print ("Backup directory is " + backupdir)
-    maintain = content[9]
-    maintain = maintain.replace('\n', "")
-    print (maintain + " older subdirectories will be stored\n")
-    maintain = int(maintain)   
-    user = content[12]
-    user = user.replace('\n', "")
-    passwd = content[13]
-    passwd = passwd.replace('\n', "")
-    urlvcf = content[16] + "?export"
-    urlvcf = urlvcf.replace('\n', "")
-    url = content[19]
-    calendarlist = content[23].replace('\n', "").split(",")
-    clientfolder = content[26]
-    clientfolder = clientfolder.replace('\n', "")
+config = configparser.ConfigParser()
+data = os.path.dirname(__file__) 
+data = data + "/data.ini"
+config.read (data)
+val = []
+x = 0
+for key in config["GENERAL"]:  
+    val.append(config["GENERAL"][key])
+path = checkSlash(val[1])
+backupdir = path + folderdate + "/"
+print ("Backup directory is " + backupdir)
+maintain = val[2]
+print (maintain + " older subdirectories will be stored\n")
+maintain = int(maintain) 
+user = val[3]
+passwd = val[4]
+urlvcf = checkSlash(val[6])
+url = checkSlash(val[8])
+calendarlist = val[9].replace('\n', "").split(",")
+clientfolder = val[11]
+clientfolder = clientfolder.replace('\n', "")
 
 # Check and create storage directory
 if not os.path.exists(path):
@@ -88,7 +90,7 @@ with open(filename, 'wb') as a:
 # Copy and zip local client files
 clientfile = backupdir + filedate + "-localfiles.zip"
 countfiles = 0
-print ("\nCreate " + clientfile + " and ad files...")
+print ("\nCreate " + clientfile + " and add files...")
 with zipfile.ZipFile(clientfile, 'w', zipfile.ZIP_DEFLATED) as target:
     for root, dirs, files in os.walk(clientfolder):
         for file in files:
@@ -109,4 +111,4 @@ for dfile in del_list:
 # Finish
 endtime = datetime.datetime.now()
 duration = endtime - starttime
-print ("\nBackup finished after a duration of " + str(duration) + "s.")
+print ("\nBackup finished after a duration of " + str(duration))
