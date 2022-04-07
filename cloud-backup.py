@@ -1,8 +1,9 @@
 # Cloud Backup v.1.1 - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
 
-# Prepare the backdata.txt and put it in the same directory like this script.
+# Please define your data with the tool "cloud-backup-settings.py" at first.
 # Then you can backup your calendars and adressbook directly from the cloud.
+# If you want to store your data-directory also, the desktop-client has to be installed.
 
 import configparser
 import requests
