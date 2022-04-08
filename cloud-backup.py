@@ -11,11 +11,16 @@ import os
 import shutil
 import zipfile
 
-# ADD NORMPATH AND OPPORTUNITY FOR TWO SLASH VARIANTS
-def checkSlash(check):
+def checkSlash(check, variant):
     last = check[-1]
     if last != "/" and last != "\u005C":
-        check = check + "/"
+        if variant == 0:
+            return check
+        else:
+            check = check + "/"
+            return check
+    elif variant == 0:
+        check = check[:-1]
     return check
 
 print ("Cloud Backup v.1.1filedev")
@@ -51,8 +56,7 @@ urlvcf = checkSlash(val[6])
 url = checkSlash(val[8])
 calendarlist = val[9].replace('\n', "").split(",")
 clientfolder = val[11]
-#clientfolder = clientfolder.replace('\n', "")
-clientfolder = os.path.normpath(clientfolder,0)
+clientfolder = os.path.normpath(clientfolder, 0)
 
 # Check and create storage directory
 if not os.path.exists(path):
