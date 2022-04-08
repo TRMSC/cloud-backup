@@ -42,21 +42,21 @@ val = []
 x = 0
 for key in config["GENERAL"]:  
     val.append(config["GENERAL"][key])
-path = checkSlash(val[1])
-path = os.path.normpath(path, 1)
+path = checkSlash(val[1], 1)
+path = os.path.normpath(path)
 backupdir = path + folderdate + "/"
-backupdir = os.path.normpath(backupdir, 1)
+backupdir = os.path.normpath(backupdir)
 print ("Backup directory is " + backupdir)
 maintain = val[2]
 print (maintain + " older subdirectories will be stored\n")
 maintain = int(maintain) 
 user = val[3]
 passwd = val[4]
-urlvcf = checkSlash(val[6])
-url = checkSlash(val[8])
+urlvcf = checkSlash(val[6], 1)
+url = checkSlash(val[8], 1)
 calendarlist = val[9].replace('\n', "").split(",")
-clientfolder = val[11]
-clientfolder = os.path.normpath(clientfolder, 0)
+clientfolder = checkSlash(val[11], 0)
+clientfolder = os.path.normpath(clientfolder)
 
 # Check and create storage directory
 if not os.path.exists(path):
