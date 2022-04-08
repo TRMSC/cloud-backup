@@ -1,4 +1,4 @@
-# Cloud Backup v.1.1filedev - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
+# Cloud Backup - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
 
 # Prepare the backdata.txt and put it in the same directory like this script.
@@ -11,7 +11,7 @@ import os
 import shutil
 import zipfile
 
-version = "v.1.1filedev"
+version = "v.1.2"
 
 def getData():
     config = configparser.ConfigParser()
