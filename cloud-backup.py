@@ -36,7 +36,6 @@ data = os.path.dirname(__file__)
 data = data + "/data.ini"
 config.read (data)
 val = []
-x = 0
 for key in config["GENERAL"]:  
     val.append(config["GENERAL"][key])
 path = checkSlash(val[1], 1)
@@ -59,14 +58,18 @@ if not os.path.exists(path):
     os.makedirs(path)
     
 # Check older versions
-print ("\nCheck older versions for cleaning...")
+print ("Check older versions for cleaning...")
 if os.path.exists(backupdir):
     maintain = maintain + 1
 def sorted_ls(path):
     mtime = lambda f: os.stat(os.path.join(path, f)).st_ctime
     return list(sorted(os.listdir(path), key = mtime))
 del_list = sorted_ls(path)[0:(len(sorted_ls(path)) - maintain)]
-print (del_list)
+printDel = ",".join(del_list)
+if printDel == "":
+    print ("none")
+else:
+    print (printDel)
 
 # Check and create todays subfolder
 if not os.path.exists(backupdir):
