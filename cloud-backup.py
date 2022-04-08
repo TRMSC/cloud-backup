@@ -22,15 +22,13 @@ def checkSlash(check, variant):
 
 print ("Cloud Backup v.1.1filedev")
 print ("Feel free to visit trmsc1.wordpress.com")
-print ("\nCheck data...")
 
-# Check date
+# Check data and settings
+print ("\nPreparing backup...")
 starttime = datetime.datetime.now()
 folderdate = datetime.datetime.now().strftime("%Y-%m-%d")
 filedate = folderdate + datetime.datetime.now().strftime("-%H-%M")
-print ("Time is " + filedate)
-
-# Check data
+print ("Time: " + filedate)
 config = configparser.ConfigParser()
 data = os.path.dirname(__file__) 
 data = data + "/data.ini"
@@ -41,16 +39,22 @@ for key in config["GENERAL"]:
 path = checkSlash(val[1], 1)
 backupdir = path + folderdate
 backupdir = checkSlash(backupdir, 1)
-print ("Backup directory is " + backupdir)
+print ("Backup directory: " + backupdir)
 maintain = val[2]
-print (maintain + " older subdirectories will be stored\n")
+print ("Number of older stored subdirectories: " + maintain)
 maintain = int(maintain) 
 user = val[3]
 passwd = val[4]
+card = val[5]
+print ("Adressbook backup: " + card)
 urlvcf = checkSlash(val[6], 2)
 urlvcf = urlvcf + "?export"
+calendar = val[7]
+print ("Calendar backup: " + calendar)
 url = checkSlash(val[8], 2)
 calendarlist = val[9].replace('\n', "").split(",")
+clouddata = val[10]
+print ("Data backup: " + clouddata)
 clientfolder = checkSlash(val[11], 1)
 
 # Check and create storage directory
@@ -58,7 +62,7 @@ if not os.path.exists(path):
     os.makedirs(path)
     
 # Check older versions
-print ("Check older versions for cleaning...")
+print ("\nCheck older versions for cleaning...")
 if os.path.exists(backupdir):
     maintain = maintain + 1
 def sorted_ls(path):
