@@ -1,9 +1,8 @@
 # Cloud Backup v.1.1 - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
 
-# Please define your data with the tool "cloud-backup-settings.py" at first.
+# Prepare the backdata.txt and put it in the same directory like this script.
 # Then you can backup your calendars and adressbook directly from the cloud.
-# If you want to store your data-directory also, the desktop-client has to be installed.
 
 import configparser
 import requests
@@ -12,8 +11,10 @@ import os
 import shutil
 import zipfile
 
+# ADD NORMPATH AND OPPORTUNITY FOR TWO SLASH VARIANTS
 def checkSlash(check):
-    if check[-1] != "/":
+    last = check[-1]
+    if last != "/" and last != "\u005C":
         check = check + "/"
     return check
 
@@ -37,7 +38,9 @@ x = 0
 for key in config["GENERAL"]:  
     val.append(config["GENERAL"][key])
 path = checkSlash(val[1])
+path = os.path.normpath(path, 1)
 backupdir = path + folderdate + "/"
+backupdir = os.path.normpath(backupdir, 1)
 print ("Backup directory is " + backupdir)
 maintain = val[2]
 print (maintain + " older subdirectories will be stored\n")
@@ -48,7 +51,8 @@ urlvcf = checkSlash(val[6])
 url = checkSlash(val[8])
 calendarlist = val[9].replace('\n', "").split(",")
 clientfolder = val[11]
-clientfolder = clientfolder.replace('\n', "")
+#clientfolder = clientfolder.replace('\n', "")
+clientfolder = os.path.normpath(clientfolder,0)
 
 # Check and create storage directory
 if not os.path.exists(path):
