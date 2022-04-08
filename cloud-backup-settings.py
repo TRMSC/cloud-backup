@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Cloud Backup v.1.1.filedev - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
+# Cloud Backup - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
 
 import configparser
@@ -9,6 +9,8 @@ import os
 import datetime
 import getpass
 from pickle import TRUE
+
+version = "v.1.2"
 
 def initConfig():
     val = readData()
@@ -201,6 +203,6 @@ def openCallist ():
         return listcontent
     
 config = configparser.ConfigParser()
-print ("\nWelcome to cloud-backup configuration v.1.1")
+print ("\nWelcome to cloud-backup configuration " + version)
 print ("Feel free to visit trmsc1.wordpress.com")
 initConfig()
