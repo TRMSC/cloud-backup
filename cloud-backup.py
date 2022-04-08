@@ -11,6 +11,8 @@ import os
 import shutil
 import zipfile
 
+version = "v.1.1filedev"
+
 def getData():
     config = configparser.ConfigParser()
     data = os.path.dirname(__file__) 
@@ -75,8 +77,57 @@ def prepareFolders(maintain):
         os.makedirs(backupdir)
     return removeDir
 
-# MAIN ------------------------------------------------
-print ("Cloud Backup v.1.1filedev")
+def storeAdressbook():
+    urlvcf = checkSlash(val[6], 2)
+    urlvcf = urlvcf + "?export"
+    filename = backupdir + filedate + "-adressbook.vcf"
+    print ("Downloading " + filename)
+    r = requests.get(urlvcf, auth=(user, passwd),allow_redirects=True)
+    with open(filename, 'wb') as a:
+        a.write(r.content)
+    return
+
+def storeCalendar():
+    url = checkSlash(val[8], 2)
+    calendarlist = val[9].replace('\n', "").split(",")
+    for i in calendarlist:
+        filename = backupdir + filedate + "-" + i + ".ics"
+        print ("Downloading " + filename)
+        calurl = url + i + "/?export"
+        calurl = calurl.replace('\n', "")
+        r = requests.get(calurl, auth = (user, passwd), allow_redirects = True)
+        with open(filename, 'wb') as k:
+            k.write(r.content)
+    return
+
+def storeData():
+    clientfolder = checkSlash(val[11], 1)
+    clientfile = backupdir + filedate + "-localfiles.zip"
+    countfiles = 0
+    print ("\nCreate " + clientfile + " and add files...")
+    with zipfile.ZipFile(clientfile, 'w', zipfile.ZIP_DEFLATED) as target:
+        for root, dirs, files in os.walk(clientfolder):
+            for file in files:
+                add = os.path.join(root, file)
+                target.write(add)
+                print("Add " + add)
+                countfiles +=1
+    print (str(countfiles) + " files were added to " + clientfile)
+    return
+
+def finishBackup():
+    print ("\nClean older versions...")
+    if removeDir == []:
+        print ("none")
+    for dfile in removeDir:
+        print ("Removing " + path + dfile)
+        shutil.rmtree(path + dfile)
+    endtime = datetime.datetime.now()
+    duration = endtime - starttime
+    print ("\nBackup finished after a duration of " + str(duration))
+    return
+
+print ("Cloud Backup " + version)
 print ("Feel free to visit trmsc1.wordpress.com")
 val = []
 val = getData()
@@ -87,50 +138,10 @@ path, backupdir, maintain, user, passwd = prepareOverarching()
 backupCheck()
 removeDir = prepareFolders(maintain)
 print ("\nStart backup progress...")
-
-# CALENDAR
-url = checkSlash(val[8], 2)
-calendarlist = val[9].replace('\n', "").split(",")
-for i in calendarlist:
-    filename = backupdir + filedate + "-" + i + ".ics"
-    print ("Downloading " + filename)
-    calurl = url + i + "/?export"
-    calurl = calurl.replace('\n', "")
-    r = requests.get(calurl, auth = (user, passwd), allow_redirects = True)
-    with open(filename, 'wb') as k:
-        k.write(r.content)
- 
-# ADRESSBOOK
-urlvcf = checkSlash(val[6], 2)
-urlvcf = urlvcf + "?export"
-filename = backupdir + filedate + "-adressbook.vcf"
-print ("Downloading " + filename)
-r = requests.get(urlvcf, auth=(user, passwd),allow_redirects=True)
-with open(filename, 'wb') as a:
-    a.write(r.content)
-    
-# DATA
-clientfolder = checkSlash(val[11], 1)
-clientfile = backupdir + filedate + "-localfiles.zip"
-countfiles = 0
-print ("\nCreate " + clientfile + " and add files...")
-with zipfile.ZipFile(clientfile, 'w', zipfile.ZIP_DEFLATED) as target:
-    for root, dirs, files in os.walk(clientfolder):
-        for file in files:
-            add = os.path.join(root, file)
-            target.write(add)
-            print("Add " + add)
-            countfiles +=1
-print (str(countfiles) + " files were added to " + clientfile)
-
-# FINISH
-print ("\nClean older versions...")
-if removeDir == []:
-    print ("none")
-for dfile in removeDir:
-    print ("Removing " + path + dfile)
-    shutil.rmtree(path + dfile)
-
-endtime = datetime.datetime.now()
-duration = endtime - starttime
-print ("\nBackup finished after a duration of " + str(duration))
+if val[5] == "yes":
+    storeAdressbook()
+if val[7] == "yes":
+    storeCalendar()
+if val[10] == "yes":
+    storeData()
+finishBackup()
