@@ -9,19 +9,17 @@ Further a big thanks to [Cermit](https://twitter.com/Cermit3273?s=20&t=quwG6m5sD
 ---
 
 _Please notice: This is my first python script. I have coded it attentive and I hope that everything works well without any guarantee of it._  
-_Until now the script is tested with [Nextcloud](https://nextcloud.com/)._
+_Until now the script is tested with [Nextcloud](https://nextcloud.com/) under [Windows](https://www.microsoft.com/de-de/windows/) and some Linux distributions like [Kubuntu](https://kubuntu.org/) and [Raspberry Pi OS](https://www.raspberrypi.com/software/)._
 
 ---
 
 ### How to:
 
-- Please put the following files in the same directory. 📁
-  - cloud-backup.py  
-  - cloud-backup-data.txt
+- Download and put the files from the repository in the same directory. 📁
 
-- Add your values to the data-file. 🖊
+- Run "cloud-backup-settings.py" to make the settings. 🖊
 
-- Backup your calendars an adressbook by starting the script. 💾
+- Backup your calendars, adressbook and local cloud data by starting the script "cloud-backup.py". 💾
 
 - Finished! 🎉 
 
@@ -32,8 +30,8 @@ ___Note: You can use the script manually or control it with a cronjob!___
 ### Roadmap:
 
 - Making executable package files for linux and windows
-- Backup the data-directory from the cloud
-- Integrate configparser module to make settings more comfortable
+- Possibility to make backups from different clouds
+- Implement official feature to make backups from local sources
 
 ---
 
@@ -48,6 +46,11 @@ v.1.0.1
 
 v.1.1
 - Autoremove older subdirectories by setting the number individually
+
+v.1.2
+- Store data directory from by having installed the client
+- Tool for making all the settings
+- Code cleaning
 
 ---
 
