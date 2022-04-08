@@ -16,10 +16,15 @@ def getData():
     data = os.path.dirname(__file__) 
     data = data + "/data.ini"
     config.read (data)
-    val = []
     for key in config["GENERAL"]:  
         val.append(config["GENERAL"][key])
     return val
+
+def stampTime():
+    starttime = datetime.datetime.now()
+    folderdate = datetime.datetime.now().strftime("%Y-%m-%d")
+    filedate = folderdate + datetime.datetime.now().strftime("-%H-%M")
+    return starttime, folderdate, filedate
 
 def checkSlash(check, variant):
     if variant == 1:
@@ -30,66 +35,62 @@ def checkSlash(check, variant):
         check = check + "/"
     return check
 
+def prepareOverarching():
+    path = checkSlash(val[1], 1)
+    backupdir = path + folderdate
+    backupdir = checkSlash(backupdir, 1)
+    print ("Backup directory: " + backupdir)
+    maintain = val[2]
+    print ("Number of older stored subdirectories: " + maintain)
+    maintain = int(maintain) 
+    user = val[3]
+    passwd = val[4]
+    return path, backupdir, maintain, user, passwd
+
+def backupCheck():
+    card = val[5]
+    print ("Adressbook backup: " + card)
+    calendar = val[7]
+    print ("Calendar backup: " + calendar)
+    clouddata = val[10]
+    print ("Data backup: " + clouddata)
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return
+
+def prepareFolders(maintain):
+    print ("\nCheck older versions for cleaning...")
+    if os.path.exists(backupdir):
+        maintain = maintain + 1
+    def makeList(path):
+        mtime = lambda f: os.stat(os.path.join(path, f)).st_ctime
+        return list(sorted(os.listdir(path), key = mtime))
+    removeDir = makeList(path)[0:(len(makeList(path)) - maintain)]
+    printDir = ",".join(removeDir)
+    if printDir == "":
+        print ("none")
+    else:
+        print (printDir)
+    if not os.path.exists(backupdir):
+        os.makedirs(backupdir)
+    return removeDir
+
+# MAIN ------------------------------------------------
 print ("Cloud Backup v.1.1filedev")
 print ("Feel free to visit trmsc1.wordpress.com")
-
+val = []
 val = getData()
-
-# Make Functions:
-# PREPARE
-# START (CARD, CALENDAR, DATA)
-# FINISH
-
 print ("\nPreparing backup...")
-starttime = datetime.datetime.now()
-folderdate = datetime.datetime.now().strftime("%Y-%m-%d")
-filedate = folderdate + datetime.datetime.now().strftime("-%H-%M")
+starttime, folderdate, filedate = stampTime()
 print ("Time: " + filedate)
-path = checkSlash(val[1], 1)
-backupdir = path + folderdate
-backupdir = checkSlash(backupdir, 1)
-print ("Backup directory: " + backupdir)
-maintain = val[2]
-print ("Number of older stored subdirectories: " + maintain)
-maintain = int(maintain) 
-user = val[3]
-passwd = val[4]
-card = val[5]
-print ("Adressbook backup: " + card)
-urlvcf = checkSlash(val[6], 2)
-urlvcf = urlvcf + "?export"
-calendar = val[7]
-print ("Calendar backup: " + calendar)
-url = checkSlash(val[8], 2)
-calendarlist = val[9].replace('\n', "").split(",")
-clouddata = val[10]
-print ("Data backup: " + clouddata)
-clientfolder = checkSlash(val[11], 1)
-
-# PREPARE
-if not os.path.exists(path):
-    os.makedirs(path)
-
-print ("\nCheck older versions for cleaning...")
-if os.path.exists(backupdir):
-    maintain = maintain + 1
-def sorted_ls(path):
-    mtime = lambda f: os.stat(os.path.join(path, f)).st_ctime
-    return list(sorted(os.listdir(path), key = mtime))
-del_list = sorted_ls(path)[0:(len(sorted_ls(path)) - maintain)]
-printDel = ",".join(del_list)
-if printDel == "":
-    print ("none")
-else:
-    print (printDel)
-
-if not os.path.exists(backupdir):
-    os.makedirs(backupdir)
-
-# START
+path, backupdir, maintain, user, passwd = prepareOverarching()
+backupCheck()
+removeDir = prepareFolders(maintain)
 print ("\nStart backup progress...")
 
 # CALENDAR
+url = checkSlash(val[8], 2)
+calendarlist = val[9].replace('\n', "").split(",")
 for i in calendarlist:
     filename = backupdir + filedate + "-" + i + ".ics"
     print ("Downloading " + filename)
@@ -100,6 +101,8 @@ for i in calendarlist:
         k.write(r.content)
  
 # ADRESSBOOK
+urlvcf = checkSlash(val[6], 2)
+urlvcf = urlvcf + "?export"
 filename = backupdir + filedate + "-adressbook.vcf"
 print ("Downloading " + filename)
 r = requests.get(urlvcf, auth=(user, passwd),allow_redirects=True)
@@ -107,6 +110,7 @@ with open(filename, 'wb') as a:
     a.write(r.content)
     
 # DATA
+clientfolder = checkSlash(val[11], 1)
 clientfile = backupdir + filedate + "-localfiles.zip"
 countfiles = 0
 print ("\nCreate " + clientfile + " and add files...")
@@ -121,9 +125,9 @@ print (str(countfiles) + " files were added to " + clientfile)
 
 # FINISH
 print ("\nClean older versions...")
-if del_list == []:
+if removeDir == []:
     print ("none")
-for dfile in del_list:
+for dfile in removeDir:
     print ("Removing " + path + dfile)
     shutil.rmtree(path + dfile)
 
