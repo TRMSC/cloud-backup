@@ -11,6 +11,16 @@ import os
 import shutil
 import zipfile
 
+def getData():
+    config = configparser.ConfigParser()
+    data = os.path.dirname(__file__) 
+    data = data + "/data.ini"
+    config.read (data)
+    val = []
+    for key in config["GENERAL"]:  
+        val.append(config["GENERAL"][key])
+    return val
+
 def checkSlash(check, variant):
     if variant == 1:
         check = os.path.normpath(check)
@@ -23,19 +33,18 @@ def checkSlash(check, variant):
 print ("Cloud Backup v.1.1filedev")
 print ("Feel free to visit trmsc1.wordpress.com")
 
-# Check data and settings
+val = getData()
+
+# Make Functions:
+# PREPARE
+# START (CARD, CALENDAR, DATA)
+# FINISH
+
 print ("\nPreparing backup...")
 starttime = datetime.datetime.now()
 folderdate = datetime.datetime.now().strftime("%Y-%m-%d")
 filedate = folderdate + datetime.datetime.now().strftime("-%H-%M")
 print ("Time: " + filedate)
-config = configparser.ConfigParser()
-data = os.path.dirname(__file__) 
-data = data + "/data.ini"
-config.read (data)
-val = []
-for key in config["GENERAL"]:  
-    val.append(config["GENERAL"][key])
 path = checkSlash(val[1], 1)
 backupdir = path + folderdate
 backupdir = checkSlash(backupdir, 1)
@@ -57,11 +66,10 @@ clouddata = val[10]
 print ("Data backup: " + clouddata)
 clientfolder = checkSlash(val[11], 1)
 
-# Check and create storage directory
+# PREPARE
 if not os.path.exists(path):
     os.makedirs(path)
-    
-# Check older versions
+
 print ("\nCheck older versions for cleaning...")
 if os.path.exists(backupdir):
     maintain = maintain + 1
@@ -75,14 +83,13 @@ if printDel == "":
 else:
     print (printDel)
 
-# Check and create todays subfolder
 if not os.path.exists(backupdir):
     os.makedirs(backupdir)
 
-# Start backup progress
+# START
 print ("\nStart backup progress...")
 
-# Calendar download
+# CALENDAR
 for i in calendarlist:
     filename = backupdir + filedate + "-" + i + ".ics"
     print ("Downloading " + filename)
@@ -92,14 +99,14 @@ for i in calendarlist:
     with open(filename, 'wb') as k:
         k.write(r.content)
  
-# Adressbook download
+# ADRESSBOOK
 filename = backupdir + filedate + "-adressbook.vcf"
 print ("Downloading " + filename)
 r = requests.get(urlvcf, auth=(user, passwd),allow_redirects=True)
 with open(filename, 'wb') as a:
     a.write(r.content)
     
-# Copy and zip local client files
+# DATA
 clientfile = backupdir + filedate + "-localfiles.zip"
 countfiles = 0
 print ("\nCreate " + clientfile + " and add files...")
@@ -112,7 +119,7 @@ with zipfile.ZipFile(clientfile, 'w', zipfile.ZIP_DEFLATED) as target:
             countfiles +=1
 print (str(countfiles) + " files were added to " + clientfile)
 
-# Remove older versions
+# FINISH
 print ("\nClean older versions...")
 if del_list == []:
     print ("none")
@@ -120,7 +127,6 @@ for dfile in del_list:
     print ("Removing " + path + dfile)
     shutil.rmtree(path + dfile)
 
-# Finish
 endtime = datetime.datetime.now()
 duration = endtime - starttime
 print ("\nBackup finished after a duration of " + str(duration))
