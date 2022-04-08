@@ -1,4 +1,4 @@
-# Cloud Backup v.1.1 - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
+# Cloud Backup v.1.1filedev - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
 
 # Prepare the backdata.txt and put it in the same directory like this script.
@@ -12,15 +12,12 @@ import shutil
 import zipfile
 
 def checkSlash(check, variant):
-    last = check[-1]
-    if last != "/" and last != "\u005C":
-        if variant == 0:
-            return check
-        else:
-            check = check + "/"
-            return check
-    elif variant == 0:
-        check = check[:-1]
+    if variant == 1:
+        check = os.path.normpath(check)
+        if not check.endswith(os.path.sep):
+            check += os.path.sep
+    elif variant == 2 and check[-1] != "/":
+        check = check + "/"
     return check
 
 print ("Cloud Backup v.1.1filedev")
@@ -43,20 +40,19 @@ x = 0
 for key in config["GENERAL"]:  
     val.append(config["GENERAL"][key])
 path = checkSlash(val[1], 1)
-path = os.path.normpath(path)
-backupdir = path + folderdate + "/"
-backupdir = os.path.normpath(backupdir)
+backupdir = path + folderdate
+backupdir = checkSlash(backupdir, 1)
 print ("Backup directory is " + backupdir)
 maintain = val[2]
 print (maintain + " older subdirectories will be stored\n")
 maintain = int(maintain) 
 user = val[3]
 passwd = val[4]
-urlvcf = checkSlash(val[6], 1)
-url = checkSlash(val[8], 1)
+urlvcf = checkSlash(val[6], 2)
+urlvcf = urlvcf + "?export"
+url = checkSlash(val[8], 2)
 calendarlist = val[9].replace('\n', "").split(",")
-clientfolder = checkSlash(val[11], 0)
-clientfolder = os.path.normpath(clientfolder)
+clientfolder = checkSlash(val[11], 1)
 
 # Check and create storage directory
 if not os.path.exists(path):
