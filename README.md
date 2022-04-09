@@ -15,7 +15,7 @@ _Until now the script is tested with [Nextcloud](https://nextcloud.com/) under [
 
 ### How to:
 
-- Download the repository and put all files in the same directory. 📁
+- [Download the latest version](https://github.com/TRMSC/cloud-backup/releases) and unzip all files in one directory. 📁
 
 - Run __cloud-backup-settings.py__ to config your backups. ⚙
 
