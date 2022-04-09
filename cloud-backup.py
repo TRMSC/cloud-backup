@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Cloud Backup - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
 
