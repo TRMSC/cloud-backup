@@ -1,5 +1,5 @@
 # Cloud Backup
-## Backup your calendars and adressbook directly from the cloud! 
+## Backup your calendars, adressbook and files* directly from the cloud! 
 
 
 Thanks to [Tiktaktux-Wiki](https://www.tiktaktux.de/doku.php?id=linux:caldav_und_carddav_backup_erstellen) and [Henry Koch](https://www.henrykoch.de/de/python-loeschen-der-aeltesten-files-in-einem-verzeichnis-nur-die-neuesten-x-bleiben-zurueck) for important bases. ✨ 
@@ -15,15 +15,17 @@ _Until now the script is tested with [Nextcloud](https://nextcloud.com/) under [
 
 ### How to:
 
-- Download and put the files from the repository in the same directory. 📁
+- Download the repository and put all files in the same directory. 📁
 
-- Run "cloud-backup-settings.py" to make the settings. 🖊
+- Run __cloud-backup-settings.py__ to config your backups. ⚙
 
-- Backup your calendars, adressbook and local cloud data by starting the script "cloud-backup.py". 💾
+- Backup your calendars, adressbook and files* by starting the script __cloud-backup.py__. 💾
 
 - Finished! 🎉 
 
 ___Note: You can use the script manually or control it with a cronjob!___ 
+
+\* _Backuping files is a new feature in v.1.2: For this part the client of your cloud has to be installed. The tool creates a zip file with the specified local data in it. For backuping your calendars and adressbook the client isn't needed._
   
 ---  
 
@@ -50,6 +52,8 @@ v.1.1
 v.1.2
 - Store data directory from by having installed the client
 - Tool for making all the settings
+- Activate or deactivate single backup parts
+- Work with relative paths to avoid relation errors
 - Code cleaning
 
 ---
