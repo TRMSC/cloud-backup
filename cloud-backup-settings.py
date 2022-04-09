@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Cloud Backup - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
@@ -15,7 +15,7 @@ version = "v.1.2"
 def initConfig():
     val = readData()
     encr = encryptPwd(val)
-    print ("\n- - - - - - - - - - - - - - - - -")
+    print ("\n- - - - - - - - - - - - - - - - -\n")
     print ("Last modified: " + val[0] + "\n")
     print (" 1 - GENERAL - Change backup directory (" + val[1] + ")")
     print (" 2 - GENERAL - Number of stored backups (" + val[2] + ")")
