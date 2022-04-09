@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
-# Cloud Backup - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
+# Cloud Backup v.1.1.filedev - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
 
 import configparser
@@ -15,7 +15,7 @@ version = "v.1.2"
 def initConfig():
     val = readData()
     encr = encryptPwd(val)
-    print ("\n- - - - - - - - - - - - - - - - -\n")
+    print ("\n- - - - - - - - - - - - - - - - -")
     print ("Last modified: " + val[0] + "\n")
     print (" 1 - GENERAL - Change backup directory (" + val[1] + ")")
     print (" 2 - GENERAL - Number of stored backups (" + val[2] + ")")
@@ -164,6 +164,7 @@ def openCallist ():
     calendarlist = val[9].replace('\n', "").split(",")
     listcontent = val[9]
     choice = "x"
+    empty = 0
     while choice != "":
         items = len(calendarlist)
         itemsDisp = items + 1
@@ -171,6 +172,7 @@ def openCallist ():
         print("")
         if position == items:
             print ("No calendarlists...")
+            empty = 1
         else:
             while position < items:
                 posDisp = position + 1
@@ -191,7 +193,11 @@ def openCallist ():
         elif isInt and int(choice) >= itemsDisp:
             print ("CALENDAR DOES NOT EXIST.")
         elif choice != "":
-            listcontent = listcontent + "," +  choice
+            if empty == 1:
+                listcontent = choice
+                empty = 0
+            else:
+                listcontent = listcontent + "," +  choice
             calendarlist = listcontent.replace('\n', "").split(",")
             print (listcontent)
     print ("\nOld version: " + val[9])
