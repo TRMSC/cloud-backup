@@ -50,8 +50,8 @@ v.1.1
 - Autoremove older subdirectories by setting the number individually
 
 v.1.2
-- Store data directory from by having installed the client
-- Tool for making all the settings
+- Provide a new tool for making all the settings
+- Store files from your cloud by having installed the client
 - Activate or deactivate single backup parts
 - Work with relative paths to avoid relation errors
 - Code cleaning
