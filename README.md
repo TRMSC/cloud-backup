@@ -1,5 +1,5 @@
 # Cloud Backup
-## Backup your calendars and adressbook directly from the cloud! 
+## Backup your calendars, adressbook and files* directly from the cloud! 
 
 
 Thanks to [Tiktaktux-Wiki](https://www.tiktaktux.de/doku.php?id=linux:caldav_und_carddav_backup_erstellen) and [Henry Koch](https://www.henrykoch.de/de/python-loeschen-der-aeltesten-files-in-einem-verzeichnis-nur-die-neuesten-x-bleiben-zurueck) for important bases. ✨ 
@@ -9,31 +9,31 @@ Further a big thanks to [Cermit](https://twitter.com/Cermit3273?s=20&t=quwG6m5sD
 ---
 
 _Please notice: This is my first python script. I have coded it attentive and I hope that everything works well without any guarantee of it._  
-_Until now the script is tested with [Nextcloud](https://nextcloud.com/)._
+_Until now the script is tested with [Nextcloud](https://nextcloud.com/) under [Windows](https://www.microsoft.com/de-de/windows/) and some Linux distributions like [Kubuntu](https://kubuntu.org/) and [Raspberry Pi OS](https://www.raspberrypi.com/software/)._
 
 ---
 
 ### How to:
 
-- Please put the following files in the same directory. 📁
-  - cloud-backup.py  
-  - cloud-backup-data.txt
+- [Download the latest version](https://github.com/TRMSC/cloud-backup/releases) and unzip all files in one directory. 📁
 
-- Add your values to the data-file. 🖊
+- Run __cloud-backup-settings.py__ to config your backups. ⚙
 
-- Backup your calendars an adressbook by starting the script. 💾
+- Backup your calendars, adressbook and files* by starting the script __cloud-backup.py__. 💾
 
 - Finished! 🎉 
 
 ___Note: You can use the script manually or control it with a cronjob!___ 
+
+\* _Backuping files is a new feature in v.1.2: For this part the client of your cloud has to be installed. The tool creates a zip file with the specified local data in it. For backuping your calendars and adressbook the client isn't needed._
   
 ---  
 
 ### Roadmap:
 
 - Making executable package files for linux and windows
-- Backup the data-directory from the cloud
-- Integrate configparser module to make settings more comfortable
+- Possibility to make backups from different clouds
+- Implement official feature to make backups from local sources
 
 ---
 
@@ -48,6 +48,13 @@ v.1.0.1
 
 v.1.1
 - Autoremove older subdirectories by setting the number individually
+
+v.1.2
+- Provide a new tool for making all the settings
+- Store files from your cloud by having installed the client
+- Activate or deactivate single backup parts
+- Work with relative paths to avoid relation errors
+- Code cleaning
 
 ---
 
