@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-# Cloud Backup v.1.1.filedev - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
+# Cloud Backup - Copyright (C) 2022, TRMSC - https://trmsc1.wordpress.com/ 
 # GNU General Public Licence 3.0 - http://www.gnu.de/documents/gpl-3.0.en.html 
 
 import configparser
@@ -10,7 +10,7 @@ import datetime
 import getpass
 from pickle import TRUE
 
-version = "v.1.2"
+version = "v.1.2.1"
 
 def initConfig():
     val = readData()
