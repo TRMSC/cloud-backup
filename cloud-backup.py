@@ -13,7 +13,7 @@ import os
 import shutil
 import zipfile
 
-version = "v.1.2"
+version = "v.1.2.1"
 
 def getData():
     config = configparser.ConfigParser()
